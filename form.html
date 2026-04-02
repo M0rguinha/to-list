@@ -1,0 +1,43 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'livros/css/style.css' %}">
+    <title>{% if livro %}Editar{% else %}Novo{% endif %} Livro</title>
+</head>
+<body>
+    <header class="site-header small">
+        <h1>{% if livro %}Editar Livro{% else %}Novo Livro{% endif %}</h1>
+        <nav>
+            <a class="btn back" href="{% url 'lista_livros' %}">Voltar</a>
+        </nav>
+    </header>
+
+    <main class="container form-container">
+        <form method="POST" class="book-form">
+            {% csrf_token %}
+            <label>Título
+                <input type="text" name="titulo" value="{{ livro.titulo|default_if_none:'' }}" required>
+            </label>
+
+            <label>Autor
+                <input type="text" name="autor" value="{{ livro.autor|default_if_none:'' }}" required>
+            </label>
+
+            <label>Ano
+                <input type="number" name="ano" value="{{ livro.ano|default_if_none:'' }}" required>
+            </label>
+
+            <div class="form-actions">
+                <button class="btn submit" type="submit">Salvar</button>
+                <a class="btn cancel" href="{% url 'lista_livros' %}">Cancelar</a>
+            </div>
+        </form>
+    </main>
+
+    <footer class="site-footer">Biblioteca</footer>
+</body>
+</html>
